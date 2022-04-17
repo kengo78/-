@@ -17,3 +17,16 @@ django-admin startproject プロジェクト名 .
 ```
 python manage.py startapp アプリ名
 ```
+
+## サーバー立ち上げ
+```
+python manage.py runserver
+```
+
+## モデル作成後にすること
+1. migrationファイルの作成
+2. migrationファイルをもとにmigrateの実行
+```
+python manage.py makemigrations 
+python manage.py migrate
+```
