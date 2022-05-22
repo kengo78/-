@@ -35,3 +35,13 @@ python manage.py migrate
 ```
 python manage.py createsuperuser
 ```
+## Superuserの情報を忘れてしまったとき
+```
+python manage.py shell
+users = User.objects.all()
+user = users[0]
+user
+[usr_infoの表示]
+user.set_password('newpass')
+user.save()
+```
