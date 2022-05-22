@@ -30,3 +30,8 @@ python manage.py runserver
 python manage.py makemigrations 
 python manage.py migrate
 ```
+
+## Superuserの作成
+```
+python manage.py createsuperuser
+```
