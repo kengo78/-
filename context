@@ -1,0 +1,61 @@
+# Contextについて
+## contextは辞書型のデータ
+## context (データ)が取得される仕組み
+contextが自動的に取得されるのは、class based viewの場合     
+function based view の場合は自動的には取得されない    
+contextはget_context_data()メソッドによって取得される          
+このメソッドを用いることで、contextという変数にデータが入る
+### get_context_data()が呼び出されるタイミングは？
+as_view()がよばれたタイミングで実行される       
+```Python
+urlpatterns = [
+  path('', SampleView.as_view(), name='sample')
+]
+これにより、SampleViewクラスのas_viewメソッドを実行している。
+### get_context_dataメソッドの実行で取得できるデータは？
+contextを表示するコードが以下
+```Python
+class SampleView(ListView):
+  template_name = 'list.html'
+  model = SampleModel
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    print(context)
+    return context
+```
+get_context_dataメソッドに注目すると、継承先のListViewのget_context_dataメソッドを実行し、それをcontext変数に代入している。        
+```
+{'paginator': None,
+
+'page_obj': None,
+
+'is_paginated': False,
+
+'object_list': <QuerySet [<AppModel: データ1つ目>, <AppModel: データ2つ目>]>,
+
+'appmodel_list': <QuerySet [<AppModel: データ1つ目>, <AppModel: データ2つ目>]>,
+
+'view': <app.views.AppListView object at 0x7f1fc52d3940>}
+```
+### contextの中身を確認
+- pagination関係
+'pagenator', 'page_obj', 'is_paginated'の3つがpaginationに関係する    
+- Queryset関連
+Querysetはモデルに入っているデータをならべて格納したもの     
+object_listという変数と、samplemodel_listという2つの種類がある    
+- View関連
+SampleViewの中で、template_name='list.html'と書いた    
+contextの'view'にはこのtemplate_nameの情報が存在する
+- データの追加
+contextは辞書型のデータなので、データを追加できる。
+
+### htmlファイルに表示する方法
+contextをファイルに表示する方法       
+{{}}で囲むことで表示することが可能    
+```
+list.html
+{% for item in object_list %}
+{{ item }}
+{% endfor %}
+{{ weather }}
+```
