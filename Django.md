@@ -45,3 +45,13 @@ user
 user.set_password('newpass')
 user.save()
 ```
+
+## Djangoのマイグレーションをロールバックしたい
+
+1. ```python manage.py showmigrations``` でマイグレーション履歴を確認
+2. ```python manage.py migrate APPLICATION_NAME MIGRATION_NAME```で指定したマイグレーションファイルまで戻る
+3. マイグレーションファイルの削除
+### 完全に初期化したい場合
+```
+python manage.py migrate APPLICATION_NAME zero
+```
